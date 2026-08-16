@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { toast } from 'sonner'
-import { Upload, User, Store, Truck } from 'lucide-react'
+import { Upload, User, Store, Truck, Sparkles, ArrowLeft } from 'lucide-react'
 
 interface Province {
   name: string
@@ -149,344 +149,362 @@ export default function RegisterPage() {
   }
 
   return (
-    <Card>
-      <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold text-center">Create an Account</CardTitle>
-        <CardDescription className="text-center">
-          Fill in your details to get started
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="role">I want to *</Label>
-            <Select value={role} onValueChange={(value) => setRole(value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select role" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="BUYER">
-                  <div className="flex items-center gap-2">
-                    <User className="h-4 w-4" />
-                    Buy products
-                  </div>
-                </SelectItem>
-                <SelectItem value="SELLER">
-                  <div className="flex items-center gap-2">
-                    <Store className="h-4 w-4" />
-                    Sell products
-                  </div>
-                </SelectItem>
-                <SelectItem value="COURIER">
-                  <div className="flex items-center gap-2">
-                    <Truck className="h-4 w-4" />
-                    Deliver packages
-                  </div>
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="firstName">First Name *</Label>
-              <Input
-                id="firstName"
-                value={formData.firstName}
-                onChange={(e) => updateField('firstName', e.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="lastName">Last Name *</Label>
-              <Input
-                id="lastName"
-                value={formData.lastName}
-                onChange={(e) => updateField('lastName', e.target.value)}
-                required
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="middleInitial">Middle Initial</Label>
-            <Input
-              id="middleInitial"
-              value={formData.middleInitial}
-              onChange={(e) => updateField('middleInitial', e.target.value)}
-              maxLength={1}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="sex">Sex *</Label>
-            <Select value={formData.sex} onValueChange={(value) => updateField('sex', value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select sex" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Male">Male</SelectItem>
-                <SelectItem value="Female">Female</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="email">Email *</Label>
-            <Input
-              id="email"
-              type="email"
-              value={formData.email}
-              onChange={(e) => updateField('email', e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="password">Password *</Label>
-            <Input
-              id="password"
-              type="password"
-              value={formData.password}
-              onChange={(e) => updateField('password', e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="contactNo">Contact Number *</Label>
-            <Input
-              id="contactNo"
-              value={formData.contactNo}
-              onChange={(e) => updateField('contactNo', e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="birthday">Birthday *</Label>
-            <div className="flex gap-2">
-              <Input
-                id="birthday"
-                type="date"
-                value={formData.birthday}
-                onChange={(e) => updateField('birthday', e.target.value)}
-                required
-                className="flex-1"
-              />
-              {formData.age && (
-                <div className="flex items-center rounded-md border border-slate-200 bg-slate-50 px-3 text-sm text-slate-600">
-                  Age: {formData.age}
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label>Address *</Label>
-            <div className="space-y-2">
-              <Select value={formData.province} onValueChange={(value) => updateField('province', value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select province" />
-                </SelectTrigger>
-                <SelectContent>
-                  {provinces.map((province) => (
-                    <SelectItem key={province.name} value={province.name}>
-                      {province.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              {municipalities.length > 0 && (
-                <Select value={formData.municipality} onValueChange={(value) => updateField('municipality', value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select municipality" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {municipalities.map((muni) => (
-                      <SelectItem key={muni} value={muni}>
-                        {muni}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
-
-              {barangays.length > 0 && (
-                <Select value={formData.barangay} onValueChange={(value) => updateField('barangay', value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select barangay" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {barangays.map((brgy) => (
-                      <SelectItem key={brgy} value={brgy}>
-                        {brgy}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
-
-              <Input
-                placeholder="Street / House Number"
-                value={formData.street}
-                onChange={(e) => updateField('street', e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="idImage">Upload ID *</Label>
-            <div className="flex items-center gap-2">
-              <Input
-                id="idImage"
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleFileChange('idImage', e)}
-                className="hidden"
-              />
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => document.getElementById('idImage')?.click()}
-                className="w-full"
-              >
-                <Upload className="mr-2 h-4 w-4" />
-                {formData.idImage ? 'ID Uploaded' : 'Upload ID'}
-              </Button>
-            </div>
-          </div>
-
-          {role === 'SELLER' && (
-            <>
-              <div className="space-y-2">
-                <Label htmlFor="businessName">Business Name *</Label>
-                <Input
-                  id="businessName"
-                  value={formData.businessName}
-                  onChange={(e) => updateField('businessName', e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="lineOfBusiness">Line of Business (Category) *</Label>
-                <Input
-                  id="lineOfBusiness"
-                  value={formData.lineOfBusiness}
-                  onChange={(e) => updateField('lineOfBusiness', e.target.value)}
-                  placeholder="e.g., Electronics, Clothing"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="businessPermit">Upload Business Permit *</Label>
-                <div className="flex items-center gap-2">
-                  <Input
-                    id="businessPermit"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileChange('businessPermit', e)}
-                    className="hidden"
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => document.getElementById('businessPermit')?.click()}
-                    className="w-full"
-                  >
-                    <Upload className="mr-2 h-4 w-4" />
-                    {formData.businessPermit ? 'Business Permit Uploaded' : 'Upload Business Permit'}
-                  </Button>
-                </div>
-              </div>
-            </>
-          )}
-
-          {role === 'COURIER' && (
-            <>
-              <div className="space-y-2">
-                <Label htmlFor="vehicleType">Choose Vehicle *</Label>
-                <Input
-                  id="vehicleType"
-                  value={formData.vehicleType}
-                  onChange={(e) => updateField('vehicleType', e.target.value)}
-                  placeholder="e.g., Motorcycle, Van, Truck"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="plateNumber">Enter Plate Number *</Label>
-                <Input
-                  id="plateNumber"
-                  value={formData.plateNumber}
-                  onChange={(e) => updateField('plateNumber', e.target.value)}
-                  placeholder="e.g., ABC 1234"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="orCrImage">Upload OR/CR *</Label>
-                <div className="flex items-center gap-2">
-                  <Input
-                    id="orCrImage"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileChange('orCrImage', e)}
-                    className="hidden"
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => document.getElementById('orCrImage')?.click()}
-                    className="w-full"
-                  >
-                    <Upload className="mr-2 h-4 w-4" />
-                    {formData.orCrImage ? 'OR/CR Uploaded' : 'Upload OR/CR'}
-                  </Button>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="licenseImage">Upload ID/Driver&apos;s License *</Label>
-                <div className="flex items-center gap-2">
-                  <Input
-                    id="licenseImage"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileChange('licenseImage', e)}
-                    className="hidden"
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => document.getElementById('licenseImage')?.click()}
-                    className="w-full"
-                  >
-                    <Upload className="mr-2 h-4 w-4" />
-                    {formData.licenseImage ? 'License Uploaded' : 'Upload License'}
-                  </Button>
-                </div>
-              </div>
-            </>
-          )}
-
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Creating account...' : 'Create Account'}
-          </Button>
-        </form>
-
-        <p className="text-center text-sm text-muted-foreground mt-4">
-          Already have an account?{' '}
-          <Link href="/auth/login" className="text-primary hover:underline">
-            Sign in
+    <div className="min-h-screen bg-white flex items-center justify-center px-6 py-12">
+      <div className="w-full max-w-2xl">
+        <div className="text-center mb-10">
+          <Link href="/" className="inline-flex items-center gap-2 mb-6">
+            <Sparkles className="h-6 w-6 text-[#D4AF37]" />
+            <span className="text-2xl font-semibold tracking-tight">Shopora</span>
           </Link>
-        </p>
-      </CardContent>
-    </Card>
+          <h1 className="text-2xl font-semibold tracking-tight">Create an Account</h1>
+          <p className="text-neutral-500 mt-2">Join Shopora and start your journey</p>
+        </div>
+
+        <Card className="border-0 shadow-lg shadow-black/5 rounded-2xl">
+          <CardContent className="p-8">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="role" className="text-sm font-medium">I want to *</Label>
+                <Select value={role} onValueChange={(value) => setRole(value)}>
+                  <SelectTrigger className="rounded-xl border-neutral-200 h-12">
+                    <SelectValue placeholder="Select role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="BUYER">
+                      <div className="flex items-center gap-2">
+                        <User className="h-4 w-4" />
+                        Buy products
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="SELLER">
+                      <div className="flex items-center gap-2">
+                        <Store className="h-4 w-4" />
+                        Sell products
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="COURIER">
+                      <div className="flex items-center gap-2">
+                        <Truck className="h-4 w-4" />
+                        Deliver packages
+                      </div>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="firstName" className="text-sm font-medium">First Name *</Label>
+                  <Input
+                    id="firstName"
+                    value={formData.firstName}
+                    onChange={(e) => updateField('firstName', e.target.value)}
+                    required
+                    className="rounded-xl border-neutral-200 h-12"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="lastName" className="text-sm font-medium">Last Name *</Label>
+                  <Input
+                    id="lastName"
+                    value={formData.lastName}
+                    onChange={(e) => updateField('lastName', e.target.value)}
+                    required
+                    className="rounded-xl border-neutral-200 h-12"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="middleInitial" className="text-sm font-medium">Middle Initial</Label>
+                <Input
+                  id="middleInitial"
+                  value={formData.middleInitial}
+                  onChange={(e) => updateField('middleInitial', e.target.value)}
+                  maxLength={1}
+                  className="rounded-xl border-neutral-200 h-12"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="sex" className="text-sm font-medium">Sex *</Label>
+                <Select value={formData.sex} onValueChange={(value) => updateField('sex', value)}>
+                  <SelectTrigger className="rounded-xl border-neutral-200 h-12">
+                    <SelectValue placeholder="Select sex" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Male">Male</SelectItem>
+                    <SelectItem value="Female">Female</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-sm font-medium">Email *</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => updateField('email', e.target.value)}
+                  required
+                  className="rounded-xl border-neutral-200 h-12"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-sm font-medium">Password *</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => updateField('password', e.target.value)}
+                  required
+                  className="rounded-xl border-neutral-200 h-12"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="contactNo" className="text-sm font-medium">Contact Number *</Label>
+                <Input
+                  id="contactNo"
+                  value={formData.contactNo}
+                  onChange={(e) => updateField('contactNo', e.target.value)}
+                  required
+                  className="rounded-xl border-neutral-200 h-12"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="birthday" className="text-sm font-medium">Birthday *</Label>
+                <div className="flex gap-3">
+                  <Input
+                    id="birthday"
+                    type="date"
+                    value={formData.birthday}
+                    onChange={(e) => updateField('birthday', e.target.value)}
+                    required
+                    className="flex-1 rounded-xl border-neutral-200 h-12"
+                  />
+                  {formData.age && (
+                    <div className="flex items-center rounded-xl border border-neutral-200 bg-neutral-50 px-4 text-sm text-neutral-600 min-w-[80px] justify-center">
+                      {formData.age} yrs
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Address *</Label>
+                <div className="space-y-3">
+                  <Select value={formData.province} onValueChange={(value) => updateField('province', value)}>
+                    <SelectTrigger className="rounded-xl border-neutral-200 h-12">
+                      <SelectValue placeholder="Select province" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {provinces.map((province) => (
+                        <SelectItem key={province.name} value={province.name}>
+                          {province.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  {municipalities.length > 0 && (
+                    <Select value={formData.municipality} onValueChange={(value) => updateField('municipality', value)}>
+                      <SelectTrigger className="rounded-xl border-neutral-200 h-12">
+                        <SelectValue placeholder="Select municipality" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {municipalities.map((muni) => (
+                          <SelectItem key={muni} value={muni}>
+                            {muni}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+
+                  {barangays.length > 0 && (
+                    <Select value={formData.barangay} onValueChange={(value) => updateField('barangay', value)}>
+                      <SelectTrigger className="rounded-xl border-neutral-200 h-12">
+                        <SelectValue placeholder="Select barangay" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {barangays.map((brgy) => (
+                          <SelectItem key={brgy} value={brgy}>
+                            {brgy}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+
+                  <Input
+                    placeholder="Street / House Number"
+                    value={formData.street}
+                    onChange={(e) => updateField('street', e.target.value)}
+                    className="rounded-xl border-neutral-200 h-12"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Upload ID *</Label>
+                <div className="flex items-center gap-3">
+                  <Input
+                    id="idImage"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleFileChange('idImage', e)}
+                    className="hidden"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => document.getElementById('idImage')?.click()}
+                    className="w-full rounded-xl h-12 border-neutral-200 hover:bg-neutral-50"
+                  >
+                    <Upload className="mr-2 h-4 w-4" />
+                    {formData.idImage ? 'ID Uploaded' : 'Upload ID'}
+                  </Button>
+                </div>
+              </div>
+
+              {role === 'SELLER' && (
+                <>
+                  <div className="space-y-2">
+                    <Label htmlFor="businessName" className="text-sm font-medium">Business Name *</Label>
+                    <Input
+                      id="businessName"
+                      value={formData.businessName}
+                      onChange={(e) => updateField('businessName', e.target.value)}
+                      required
+                      className="rounded-xl border-neutral-200 h-12"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="lineOfBusiness" className="text-sm font-medium">Line of Business (Category) *</Label>
+                    <Input
+                      id="lineOfBusiness"
+                      value={formData.lineOfBusiness}
+                      onChange={(e) => updateField('lineOfBusiness', e.target.value)}
+                      placeholder="e.g., Electronics, Clothing"
+                      required
+                      className="rounded-xl border-neutral-200 h-12"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">Upload Business Permit *</Label>
+                    <div className="flex items-center gap-3">
+                      <Input
+                        id="businessPermit"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleFileChange('businessPermit', e)}
+                        className="hidden"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => document.getElementById('businessPermit')?.click()}
+                        className="w-full rounded-xl h-12 border-neutral-200 hover:bg-neutral-50"
+                      >
+                        <Upload className="mr-2 h-4 w-4" />
+                        {formData.businessPermit ? 'Business Permit Uploaded' : 'Upload Business Permit'}
+                      </Button>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {role === 'COURIER' && (
+                <>
+                  <div className="space-y-2">
+                    <Label htmlFor="vehicleType" className="text-sm font-medium">Choose Vehicle *</Label>
+                    <Input
+                      id="vehicleType"
+                      value={formData.vehicleType}
+                      onChange={(e) => updateField('vehicleType', e.target.value)}
+                      placeholder="e.g., Motorcycle, Van, Truck"
+                      required
+                      className="rounded-xl border-neutral-200 h-12"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="plateNumber" className="text-sm font-medium">Enter Plate Number *</Label>
+                    <Input
+                      id="plateNumber"
+                      value={formData.plateNumber}
+                      onChange={(e) => updateField('plateNumber', e.target.value)}
+                      placeholder="e.g., ABC 1234"
+                      required
+                      className="rounded-xl border-neutral-200 h-12"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">Upload OR/CR *</Label>
+                    <div className="flex items-center gap-3">
+                      <Input
+                        id="orCrImage"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleFileChange('orCrImage', e)}
+                        className="hidden"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => document.getElementById('orCrImage')?.click()}
+                        className="w-full rounded-xl h-12 border-neutral-200 hover:bg-neutral-50"
+                      >
+                        <Upload className="mr-2 h-4 w-4" />
+                        {formData.orCrImage ? 'OR/CR Uploaded' : 'Upload OR/CR'}
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">Upload ID/Driver&apos;s License *</Label>
+                    <div className="flex items-center gap-3">
+                      <Input
+                        id="licenseImage"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleFileChange('licenseImage', e)}
+                        className="hidden"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => document.getElementById('licenseImage')?.click()}
+                        className="w-full rounded-xl h-12 border-neutral-200 hover:bg-neutral-50"
+                      >
+                        <Upload className="mr-2 h-4 w-4" />
+                        {formData.licenseImage ? 'License Uploaded' : 'Upload License'}
+                      </Button>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              <Button type="submit" className="w-full rounded-xl h-12 bg-black text-white hover:bg-neutral-800" disabled={loading}>
+                {loading ? 'Creating account...' : 'Create Account'}
+              </Button>
+            </form>
+
+            <p className="text-center text-sm text-neutral-500 mt-8">
+              Already have an account?{' '}
+              <Link href="/auth/login" className="text-black font-medium hover:underline">
+                Sign in
+              </Link>
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   )
 }

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
-import { Package, ChevronRight } from 'lucide-react'
+import { Package, ChevronRight, Sparkles } from 'lucide-react'
 
 interface Order {
   id: string
@@ -90,10 +90,14 @@ export default function OrdersPage() {
   const filters = ['ALL', 'PENDING', 'CONFIRMED', 'PROCESSING', 'IN_TRANSIT', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED']
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900">My Orders</h1>
-        <p className="text-slate-600 mt-1">Track and manage your orders</p>
+        <div className="flex items-center gap-2 mb-3">
+          <Sparkles className="h-5 w-5 text-[#D4AF37]" />
+          <span className="text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase">Track</span>
+        </div>
+        <h1 className="text-3xl font-semibold tracking-tight">My Orders</h1>
+        <p className="text-neutral-600 mt-2">Track and manage your orders</p>
       </div>
 
       <div className="flex flex-wrap gap-2">
@@ -103,6 +107,7 @@ export default function OrdersPage() {
             variant={filter === f ? 'default' : 'outline'}
             size="sm"
             onClick={() => setFilter(f)}
+            className={filter === f ? 'bg-black text-white hover:bg-neutral-800 rounded-full' : 'rounded-full border-neutral-200 hover:bg-neutral-50'}
           >
             {f === 'ALL' ? 'All' : f.replace(/_/g, ' ')}
           </Button>
@@ -111,14 +116,14 @@ export default function OrdersPage() {
 
       {loading ? (
         <div className="flex items-center justify-center min-h-[200px]">
-          <div className="text-slate-500">Loading orders...</div>
+          <div className="text-neutral-500">Loading orders...</div>
         </div>
       ) : orders.length === 0 ? (
-        <Card>
-          <CardContent className="py-12 text-center">
-            <Package className="h-12 w-12 text-slate-400 mx-auto mb-4" />
-            <p className="text-slate-600">No orders found</p>
-            <Button className="mt-4" onClick={() => window.location.href = '/buyer/categories'}>
+        <Card className="border border-neutral-200 shadow-sm">
+          <CardContent className="py-16 text-center">
+            <Package className="h-12 w-12 text-neutral-300 mx-auto mb-4" />
+            <p className="text-neutral-600 font-medium">No orders found</p>
+            <Button className="mt-6 rounded-full bg-black text-white hover:bg-neutral-800" onClick={() => window.location.href = '/buyer/categories'}>
               Start Shopping
             </Button>
           </CardContent>
@@ -127,16 +132,16 @@ export default function OrdersPage() {
         <div className="space-y-4">
           {orders.map((order) => (
             <Link key={order.id} href={`/buyer/orders/${order.id}`}>
-              <Card className="hover:shadow-md transition-shadow cursor-pointer">
+              <Card className="hover:shadow-md hover:shadow-black/5 transition-all duration-300 cursor-pointer border border-neutral-200 bg-white">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-slate-100 rounded-md flex items-center justify-center">
-                        <Package className="h-6 w-6 text-slate-600" />
+                      <div className="w-12 h-12 bg-neutral-100 rounded-xl flex items-center justify-center">
+                        <Package className="h-6 w-6 text-neutral-600" />
                       </div>
                       <div>
                         <p className="font-medium">#{order.orderNumber}</p>
-                        <p className="text-sm text-slate-500">
+                        <p className="text-sm text-neutral-500">
                           {order.items?.length || 0} items • {new Date(order.createdAt).toLocaleDateString()}
                         </p>
                       </div>
@@ -148,7 +153,7 @@ export default function OrdersPage() {
                           {order.status.replace(/_/g, ' ')}
                         </span>
                       </div>
-                      <ChevronRight className="h-5 w-5 text-slate-400" />
+                      <ChevronRight className="h-5 w-5 text-neutral-400" />
                     </div>
                   </div>
                 </CardContent>

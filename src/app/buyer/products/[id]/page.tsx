@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { toast } from 'sonner'
-import { ShoppingCart, Minus, Plus, Star } from 'lucide-react'
+import { ShoppingCart, Minus, Plus, Star, Sparkles } from 'lucide-react'
 
 interface Product {
   id: string
@@ -89,7 +89,7 @@ export default function ProductDetailsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-slate-500">Loading product...</div>
+        <div className="text-neutral-500">Loading product...</div>
       </div>
     )
   }
@@ -97,7 +97,7 @@ export default function ProductDetailsPage() {
   if (!product) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-slate-500">Product not found</div>
+        <div className="text-neutral-500">Product not found</div>
       </div>
     )
   }
@@ -111,33 +111,34 @@ export default function ProductDetailsPage() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="aspect-square bg-slate-100 rounded-lg flex items-center justify-center overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="aspect-square bg-neutral-100 rounded-2xl flex items-center justify-center overflow-hidden border border-neutral-200">
           {product.images ? (
             <img src={product.images} alt={product.name} className="w-full h-full object-cover" />
           ) : (
-            <ShoppingCart className="h-24 w-24 text-slate-400" />
+            <ShoppingCart className="h-24 w-24 text-neutral-400" />
           )}
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div>
-            <h1 className="text-3xl font-bold text-slate-900">{product.name}</h1>
-            {product.category && (
-              <p className="text-slate-600 mt-1">{product.category.name}</p>
-            )}
+            <div className="flex items-center gap-2 mb-3">
+              <Sparkles className="h-5 w-5 text-[#D4AF37]" />
+              <span className="text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase">{product.category?.name || 'Product'}</span>
+            </div>
+            <h1 className="text-4xl font-semibold tracking-tight">{product.name}</h1>
           </div>
 
-          <div className="flex items-baseline gap-3">
-            <span className="text-3xl font-bold text-slate-900">
+          <div className="flex items-baseline gap-4">
+            <span className="text-4xl font-bold">
               {formatCurrency(discountedPrice)}
             </span>
             {product.discount && product.discount > 0 && (
               <>
-                <span className="text-xl text-slate-500 line-through">
+                <span className="text-xl text-neutral-400 line-through">
                   {formatCurrency(product.price)}
                 </span>
-                <span className="px-2 py-1 rounded-full bg-red-100 text-red-800 text-sm font-medium">
+                <span className="px-3 py-1 rounded-full bg-black text-white text-sm font-medium">
                   -{product.discount}% OFF
                 </span>
               </>
@@ -150,14 +151,14 @@ export default function ProductDetailsPage() {
                 <Star key={star} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
               ))}
             </div>
-            <span className="text-sm text-slate-600">4.0 (No ratings yet)</span>
+            <span className="text-sm text-neutral-600">4.0 (No ratings yet)</span>
           </div>
 
-          <p className="text-slate-700 leading-relaxed">
+          <p className="text-neutral-600 leading-relaxed text-lg">
             {product.description || 'No description available for this product.'}
           </p>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <span className={`px-3 py-1 rounded-full text-sm font-medium ${
               product.stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
             }`}>
@@ -167,9 +168,9 @@ export default function ProductDetailsPage() {
 
           {variations.length > 0 && (
             <div className="space-y-2">
-              <Label>Variation</Label>
+              <Label className="text-sm font-medium">Variation</Label>
               <Select value={variation} onValueChange={setVariation}>
-                <SelectTrigger>
+                <SelectTrigger className="rounded-xl border-neutral-200 h-12">
                   <SelectValue placeholder="Select a variation" />
                 </SelectTrigger>
                 <SelectContent>
@@ -184,13 +185,14 @@ export default function ProductDetailsPage() {
           )}
 
           <div className="space-y-2">
-            <Label>Quantity</Label>
+            <Label className="text-sm font-medium">Quantity</Label>
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
                 size="icon"
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 disabled={quantity <= 1}
+                className="rounded-xl border-neutral-200 h-12 w-12"
               >
                 <Minus className="h-4 w-4" />
               </Button>
@@ -198,7 +200,7 @@ export default function ProductDetailsPage() {
                 type="number"
                 value={quantity}
                 onChange={(e) => setQuantity(Math.max(1, Math.min(product.stock, parseInt(e.target.value) || 1)))}
-                className="w-20 text-center"
+                className="w-20 text-center rounded-xl border-neutral-200 h-12"
                 min={1}
                 max={product.stock}
               />
@@ -207,6 +209,7 @@ export default function ProductDetailsPage() {
                 size="icon"
                 onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
                 disabled={quantity >= product.stock}
+                className="rounded-xl border-neutral-200 h-12 w-12"
               >
                 <Plus className="h-4 w-4" />
               </Button>
@@ -214,7 +217,7 @@ export default function ProductDetailsPage() {
           </div>
 
           <Button
-            className="w-full"
+            className="w-full rounded-full bg-black text-white hover:bg-neutral-800 h-14 text-base"
             size="lg"
             disabled={product.stock === 0 || addingToCart}
             onClick={addToCart}

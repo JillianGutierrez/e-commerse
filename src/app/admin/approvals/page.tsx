@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { toast } from 'sonner'
-import { Search, Eye, CheckCircle, XCircle, Users, Clock, Filter } from 'lucide-react'
+import { Search, Eye, CheckCircle, XCircle, Users, Clock, Filter, Sparkles } from 'lucide-react'
 
 interface User {
   id: string
@@ -104,34 +104,38 @@ export default function AdminApprovalsPage() {
   })
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Account Approvals</h1>
-          <p className="text-slate-600 mt-1">Review and approve new user registrations</p>
+          <div className="flex items-center gap-2 mb-3">
+            <Sparkles className="h-5 w-5 text-[#D4AF37]" />
+            <span className="text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase">Review</span>
+          </div>
+          <h1 className="text-3xl font-semibold tracking-tight">Account Approvals</h1>
+          <p className="text-neutral-600 mt-2">Review and approve new user registrations</p>
         </div>
         <div className="flex items-center gap-2">
           <Clock className="h-5 w-5 text-yellow-600" />
-          <span className="text-sm font-medium text-slate-600">
+          <span className="text-sm font-medium text-neutral-600">
             {users.length} pending
           </span>
         </div>
       </div>
 
-      <Card>
+      <Card className="border border-neutral-200 shadow-sm">
         <CardHeader>
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
               <Input
                 placeholder="Search by name or email..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
+                className="pl-10 rounded-xl border-neutral-200 h-12"
               />
             </div>
             <Select value={filterRole} onValueChange={setFilterRole}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-[180px] h-12 rounded-xl border-neutral-200">
                 <SelectValue placeholder="Filter by role" />
               </SelectTrigger>
               <SelectContent>
@@ -146,32 +150,32 @@ export default function AdminApprovalsPage() {
         <CardContent>
           {loading ? (
             <div className="flex items-center justify-center min-h-[200px]">
-              <div className="text-slate-500">Loading approvals...</div>
+              <div className="text-neutral-500">Loading approvals...</div>
             </div>
           ) : filteredUsers.length === 0 ? (
             <div className="flex flex-col items-center justify-center min-h-[200px]">
               <CheckCircle className="h-12 w-12 text-green-400 mb-4" />
-              <p className="text-slate-600">No pending approvals</p>
-              <p className="text-sm text-slate-500 mt-1">All registrations have been reviewed</p>
+              <p className="text-neutral-600 font-medium">No pending approvals</p>
+              <p className="text-sm text-neutral-500 mt-1">All registrations have been reviewed</p>
             </div>
           ) : (
             <div className="space-y-4">
               {filteredUsers.map((user) => (
-                <div key={user.id} className="flex items-center justify-between rounded-lg border border-slate-200 p-4 hover:bg-slate-50 transition-colors">
+                <div key={user.id} className="flex items-center justify-between rounded-xl border border-neutral-200 p-5 hover:bg-neutral-50 transition-colors">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center">
-                      <span className="text-sm font-medium text-slate-600">
+                    <div className="w-10 h-10 bg-neutral-100 rounded-full flex items-center justify-center">
+                      <span className="text-sm font-medium text-neutral-600">
                         {user.firstName[0]}{user.lastName[0]}
                       </span>
                     </div>
                     <div>
                       <p className="font-medium text-sm">{user.name || `${user.firstName} ${user.lastName}`}</p>
-                      <p className="text-xs text-slate-500">{user.email}</p>
+                      <p className="text-xs text-neutral-500">{user.email}</p>
                       <div className="flex items-center gap-2 mt-1">
                         <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${getRoleBadgeColor(user.role)}`}>
                           {user.role}
                         </span>
-                        <span className="text-xs text-slate-400">
+                        <span className="text-xs text-neutral-400">
                           {new Date(user.createdAt).toLocaleDateString()}
                         </span>
                       </div>
@@ -179,7 +183,7 @@ export default function AdminApprovalsPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Link href={`/admin/users/${user.id}`}>
-                      <Button variant="ghost" size="icon">
+                      <Button variant="ghost" size="icon" className="rounded-lg hover:bg-neutral-100">
                         <Eye className="h-4 w-4" />
                       </Button>
                     </Link>
@@ -187,6 +191,7 @@ export default function AdminApprovalsPage() {
                       size="sm"
                       onClick={() => updateUserStatus(user.id, 'APPROVED')}
                       disabled={updatingId === user.id}
+                      className="rounded-full bg-black text-white hover:bg-neutral-800"
                     >
                       <CheckCircle className="h-4 w-4 mr-1" />
                       Approve
@@ -196,6 +201,7 @@ export default function AdminApprovalsPage() {
                       variant="destructive"
                       onClick={() => updateUserStatus(user.id, 'REJECTED')}
                       disabled={updatingId === user.id}
+                      className="rounded-full"
                     >
                       <XCircle className="h-4 w-4 mr-1" />
                       Reject

@@ -20,10 +20,10 @@ export default async function CourierLayout({
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-white">
       <CourierSidebar />
       <main className={cn('transition-all duration-300', 'ml-64')}>
-        <div className="p-6">
+        <div className="p-8">
           {children}
         </div>
       </main>

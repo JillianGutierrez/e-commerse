@@ -13,6 +13,7 @@ import {
   UserCheck,
   AlertTriangle,
   Eye,
+  Sparkles,
 } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
@@ -98,124 +99,128 @@ export default async function AdminDashboard() {
   const data = await getStats()
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
-        <p className="text-slate-600 mt-1">Platform overview and management</p>
+        <div className="flex items-center gap-2 mb-3">
+          <Sparkles className="h-5 w-5 text-[#D4AF37]" />
+          <span className="text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase">Overview</span>
+        </div>
+        <h1 className="text-3xl font-semibold tracking-tight">Dashboard</h1>
+        <p className="text-neutral-600 mt-2">Platform overview and management</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Total Users</CardTitle>
-            <Users className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-neutral-600">Total Users</CardTitle>
+            <Users className="h-4 w-4 text-neutral-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{data.totalUsers}</div>
-            <p className="text-xs text-slate-500 mt-1">{data.pendingUsers} pending approval</p>
+            <p className="text-xs text-neutral-500 mt-1">{data.pendingUsers} pending approval</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Total Sellers</CardTitle>
-            <Store className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-neutral-600">Total Sellers</CardTitle>
+            <Store className="h-4 w-4 text-neutral-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{data.totalSellers}</div>
-            <p className="text-xs text-slate-500 mt-1">Registered sellers</p>
+            <p className="text-xs text-neutral-500 mt-1">Registered sellers</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Total Buyers</CardTitle>
-            <ShoppingCart className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-neutral-600">Total Buyers</CardTitle>
+            <ShoppingCart className="h-4 w-4 text-neutral-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{data.totalBuyers}</div>
-            <p className="text-xs text-slate-500 mt-1">Registered buyers</p>
+            <p className="text-xs text-neutral-500 mt-1">Registered buyers</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Total Couriers</CardTitle>
-            <Truck className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-neutral-600">Total Couriers</CardTitle>
+            <Truck className="h-4 w-4 text-neutral-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{data.totalCouriers}</div>
-            <p className="text-xs text-slate-500 mt-1">Registered couriers</p>
+            <p className="text-xs text-neutral-500 mt-1">Registered couriers</p>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Total Products</CardTitle>
-            <Package className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-neutral-600">Total Products</CardTitle>
+            <Package className="h-4 w-4 text-neutral-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{data.totalProducts}</div>
-            <p className="text-xs text-slate-500 mt-1">Active listings</p>
+            <p className="text-xs text-neutral-500 mt-1">Active listings</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Total Orders</CardTitle>
-            <ClipboardList className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-neutral-600">Total Orders</CardTitle>
+            <ClipboardList className="h-4 w-4 text-neutral-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{data.totalOrders}</div>
-            <p className="text-xs text-slate-500 mt-1">{data.pendingOrders} pending</p>
+            <p className="text-xs text-neutral-500 mt-1">{data.pendingOrders} pending</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Total Revenue</CardTitle>
-            <TrendingUp className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-neutral-600">Total Revenue</CardTitle>
+            <TrendingUp className="h-4 w-4 text-neutral-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{formatCurrency(data.totalRevenue)}</div>
-            <p className="text-xs text-slate-500 mt-1">Platform sales</p>
+            <p className="text-xs text-neutral-500 mt-1">Platform sales</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Pending Users</CardTitle>
-            <UserCheck className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-neutral-600">Pending Users</CardTitle>
+            <UserCheck className="h-4 w-4 text-neutral-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{data.pendingUsers}</div>
-            <p className="text-xs text-slate-500 mt-1">Awaiting approval</p>
+            <p className="text-xs text-neutral-500 mt-1">Awaiting approval</p>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader>
             <CardTitle>Recent Orders</CardTitle>
             <CardDescription>Latest orders on the platform</CardDescription>
           </CardHeader>
           <CardContent>
             {data.recentOrders.length === 0 ? (
-              <p className="text-sm text-slate-500">No orders yet.</p>
+              <p className="text-sm text-neutral-500">No orders yet.</p>
             ) : (
               <div className="space-y-4">
                 {data.recentOrders.map((order: any) => (
-                  <div key={order.id} className="flex items-center justify-between rounded-lg border border-slate-200 p-4">
+                  <div key={order.id} className="flex items-center justify-between rounded-xl border border-neutral-200 p-4">
                     <div>
                       <p className="font-medium text-sm">#{order.orderNumber}</p>
-                      <p className="text-xs text-slate-500">
+                      <p className="text-xs text-neutral-500">
                         {order.buyer ? `${order.buyer.firstName} ${order.buyer.lastName}` : 'Unknown Buyer'} &bull;{' '}
                         {order.seller ? order.seller.businessName : 'Unknown Seller'}
                       </p>
-                      <p className="text-xs text-slate-500">{new Date(order.createdAt).toLocaleDateString()}</p>
+                      <p className="text-xs text-neutral-500">{new Date(order.createdAt).toLocaleDateString()}</p>
                     </div>
                     <div className="text-right">
                       <p className="font-medium text-sm">{formatCurrency(order.totalAmount)}</p>
@@ -228,43 +233,43 @@ export default async function AdminDashboard() {
               </div>
             )}
             <Link href="/admin/orders">
-              <Button variant="outline" className="w-full mt-4">View All Orders</Button>
+              <Button variant="outline" className="w-full mt-4 rounded-full">View All Orders</Button>
             </Link>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader>
             <CardTitle>Pending Approvals</CardTitle>
             <CardDescription>Users awaiting approval</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="flex items-center justify-between rounded-lg border border-yellow-200 bg-yellow-50 p-4">
+              <div className="flex items-center justify-between rounded-xl border border-yellow-200 bg-yellow-50 p-4">
                 <div className="flex items-center gap-3">
                   <AlertTriangle className="h-5 w-5 text-yellow-600" />
                   <div>
                     <p className="font-medium text-sm">Pending User Approvals</p>
-                    <p className="text-xs text-slate-500">{data.pendingUsers} users waiting</p>
+                    <p className="text-xs text-neutral-500">{data.pendingUsers} users waiting</p>
                   </div>
                 </div>
-                <Link href="/admin/users">
-                  <Button size="sm">
+                <Link href="/admin/approvals">
+                  <Button size="sm" className="rounded-full bg-black text-white hover:bg-neutral-800">
                     <Eye className="mr-2 h-4 w-4" />
                     Review
                   </Button>
                 </Link>
               </div>
-              <div className="flex items-center justify-between rounded-lg border border-blue-200 bg-blue-50 p-4">
+              <div className="flex items-center justify-between rounded-xl border border-blue-200 bg-blue-50 p-4">
                 <div className="flex items-center gap-3">
                   <ClipboardList className="h-5 w-5 text-blue-600" />
                   <div>
                     <p className="font-medium text-sm">Pending Orders</p>
-                    <p className="text-xs text-slate-500">{data.pendingOrders} orders waiting</p>
+                    <p className="text-xs text-neutral-500">{data.pendingOrders} orders waiting</p>
                   </div>
                 </div>
                 <Link href="/admin/orders">
-                  <Button size="sm" variant="outline">
+                  <Button size="sm" variant="outline" className="rounded-full">
                     <Eye className="mr-2 h-4 w-4" />
                     View
                   </Button>
@@ -277,35 +282,35 @@ export default async function AdminDashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Link href="/admin/users">
-          <Card className="hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="hover:shadow-md hover:shadow-black/5 transition-all duration-300 cursor-pointer border border-neutral-200">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-slate-600">Manage Users</CardTitle>
-              <Users className="h-4 w-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-neutral-600">Manage Users</CardTitle>
+              <Users className="h-4 w-4 text-neutral-400" />
             </CardHeader>
             <CardContent>
-              <p className="text-xs text-slate-500">Approve, reject, and manage user accounts</p>
+              <p className="text-xs text-neutral-500">Approve, reject, and manage user accounts</p>
             </CardContent>
           </Card>
         </Link>
         <Link href="/admin/products">
-          <Card className="hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="hover:shadow-md hover:shadow-black/5 transition-all duration-300 cursor-pointer border border-neutral-200">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-slate-600">Manage Products</CardTitle>
-              <Package className="h-4 w-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-neutral-600">Manage Products</CardTitle>
+              <Package className="h-4 w-4 text-neutral-400" />
             </CardHeader>
             <CardContent>
-              <p className="text-xs text-slate-500">Review and moderate product listings</p>
+              <p className="text-xs text-neutral-500">Review and moderate product listings</p>
             </CardContent>
           </Card>
         </Link>
         <Link href="/admin/orders">
-          <Card className="hover:shadow-md transition-shadow cursor-pointer">
+          <Card className="hover:shadow-md hover:shadow-black/5 transition-all duration-300 cursor-pointer border border-neutral-200">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-slate-600">Manage Orders</CardTitle>
-              <ClipboardList className="h-4 w-4 text-slate-400" />
+              <CardTitle className="text-sm font-medium text-neutral-600">Manage Orders</CardTitle>
+              <ClipboardList className="h-4 w-4 text-neutral-400" />
             </CardHeader>
             <CardContent>
-              <p className="text-xs text-slate-500">Monitor and update order statuses</p>
+              <p className="text-xs text-neutral-500">Monitor and update order statuses</p>
             </CardContent>
           </Card>
         </Link>

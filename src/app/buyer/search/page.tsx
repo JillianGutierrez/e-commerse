@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import ProductCard from '../components/product-card'
-import { Search, Filter } from 'lucide-react'
+import { Search, SlidersHorizontal, Sparkles } from 'lucide-react'
 
 interface Product {
   id: string
@@ -53,7 +53,7 @@ export default function SearchPage() {
     try {
       const res = await fetch(`/api/products?${params.toString()}`)
       const data = await res.json()
-      setProducts(data)
+      setProducts(data.products || [])
     } catch (error) {
       console.error('Search failed:', error)
     } finally {
@@ -62,35 +62,39 @@ export default function SearchPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900">Search Products</h1>
-        <p className="text-slate-600 mt-1">Find exactly what you need</p>
+        <div className="flex items-center gap-2 mb-3">
+          <Sparkles className="h-5 w-5 text-[#D4AF37]" />
+          <span className="text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase">Discover</span>
+        </div>
+        <h1 className="text-3xl font-semibold tracking-tight">Search Products</h1>
+        <p className="text-neutral-600 mt-2">Find exactly what you need</p>
       </div>
 
-      <Card>
+      <Card className="border border-neutral-200 shadow-sm">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-lg">
             <Search className="h-5 w-5" />
             Search
           </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSearch} className="space-y-4">
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <div className="flex-1">
                 <Input
                   placeholder="Search products..."
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  className="w-full"
+                  className="w-full rounded-xl border-neutral-200 h-12"
                 />
               </div>
               <div className="w-64">
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+                  className="flex h-12 w-full rounded-xl border border-neutral-200 bg-white px-4 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
                 >
                   <option value="">All Categories</option>
                   {categories.map(cat => (
@@ -98,7 +102,7 @@ export default function SearchPage() {
                   ))}
                 </select>
               </div>
-              <Button type="submit" disabled={loading}>
+              <Button type="submit" disabled={loading} className="rounded-xl h-12 px-8 bg-black text-white hover:bg-neutral-800">
                 {loading ? 'Searching...' : 'Search'}
               </Button>
             </div>
@@ -108,17 +112,17 @@ export default function SearchPage() {
 
       {searched && (
         <div>
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold">
               {products.length} {products.length === 1 ? 'result' : 'results'} found
             </h2>
           </div>
           {products.length === 0 ? (
-            <Card>
-              <CardContent className="py-12 text-center">
-                <Filter className="h-12 w-12 text-slate-400 mx-auto mb-4" />
-                <p className="text-slate-600">No products found matching your criteria.</p>
-                <p className="text-sm text-slate-500 mt-2">Try adjusting your search or browse categories.</p>
+            <Card className="border border-neutral-200 shadow-sm">
+              <CardContent className="py-16 text-center">
+                <SlidersHorizontal className="h-12 w-12 text-neutral-300 mx-auto mb-4" />
+                <p className="text-neutral-600 font-medium">No products found matching your criteria.</p>
+                <p className="text-sm text-neutral-500 mt-2">Try adjusting your search or browse categories.</p>
               </CardContent>
             </Card>
           ) : (

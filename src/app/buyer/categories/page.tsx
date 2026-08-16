@@ -5,7 +5,7 @@ import prisma from '@/lib/prisma'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { Grid3x3 } from 'lucide-react'
+import { Grid3x3, Sparkles } from 'lucide-react'
 
 const ERP_CATEGORIES = [
   { name: 'Pet Supplies', subcategories: ['Dog Food & Treats', 'Cat Litter & Accessories', 'Aquariums & Fish Supplies', 'Bird Feeders & Food', 'Pet Grooming Products', 'Pet Health & Wellness'] },
@@ -64,34 +64,40 @@ export default async function CategoriesPage() {
   ])
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900">Categories</h1>
-        <p className="text-slate-600 mt-1">Browse products by category</p>
+        <div className="flex items-center gap-2 mb-3">
+          <Sparkles className="h-5 w-5 text-[#D4AF37]" />
+          <span className="text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase">Browse</span>
+        </div>
+        <h1 className="text-3xl font-semibold tracking-tight">Categories</h1>
+        <p className="text-neutral-600 mt-2">Explore products by category</p>
       </div>
 
       {seededCount > 0 && (
-        <div className="rounded-md bg-blue-50 p-4 text-sm text-blue-800">
-          {seededCount} ERP categories seeded successfully.
+        <div className="rounded-xl bg-neutral-50 border border-neutral-200 p-4 text-sm text-neutral-600">
+          {seededCount} categories available
         </div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {categories.map((category) => (
-          <Card key={category.id} className="hover:shadow-md transition-shadow">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-lg">{category.name}</CardTitle>
-                <Grid3x3 className="h-5 w-5 text-slate-400" />
-              </div>
-              <CardDescription>{category._count.products} products</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Link href={`/buyer/search?category=${category.slug}`}>
-                <Button variant="outline" className="w-full">Browse Products</Button>
-              </Link>
-            </CardContent>
-          </Card>
+          <Link key={category.id} href={`/buyer/search?category=${category.slug}`}>
+            <Card className="group hover:shadow-lg hover:shadow-black/5 transition-all duration-300 cursor-pointer h-full border border-neutral-200 bg-white hover:border-neutral-300">
+              <CardHeader className="pb-4">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg font-medium">{category.name}</CardTitle>
+                  <Grid3x3 className="h-5 w-5 text-neutral-400 group-hover:text-[#D4AF37] transition-colors" />
+                </div>
+                <CardDescription>{category._count.products} products</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button variant="outline" className="w-full rounded-full group-hover:bg-black group-hover:text-white group-hover:border-black transition-all duration-300">
+                  Browse Products
+                </Button>
+              </CardContent>
+            </Card>
+          </Link>
         ))}
       </div>
     </div>

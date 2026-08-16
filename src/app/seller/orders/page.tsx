@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { toast } from 'sonner'
-import { Package, ChevronRight, Search } from 'lucide-react'
+import { Package, ChevronRight, Search, Sparkles } from 'lucide-react'
 
 interface Order {
   id: string
@@ -143,24 +143,26 @@ export default function SellerOrdersPage() {
   })
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900">Orders</h1>
-          <p className="text-slate-600 mt-1">Manage and track your orders</p>
+    <div className="space-y-8">
+      <div>
+        <div className="flex items-center gap-2 mb-3">
+          <Sparkles className="h-5 w-5 text-[#D4AF37]" />
+          <span className="text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase">Orders</span>
         </div>
+        <h1 className="text-3xl font-semibold tracking-tight">Orders</h1>
+        <p className="text-neutral-600 mt-2">Manage and track your orders</p>
       </div>
 
-      <Card>
+      <Card className="border border-neutral-200 shadow-sm">
         <CardHeader>
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
               <Input
                 placeholder="Search by order number or buyer..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
+                className="pl-10 rounded-xl border-neutral-200 h-12"
               />
             </div>
           </div>
@@ -171,6 +173,7 @@ export default function SellerOrdersPage() {
                 variant={filter === f ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setFilter(f)}
+                className={filter === f ? 'bg-black text-white hover:bg-neutral-800 rounded-full' : 'rounded-full border-neutral-200 hover:bg-neutral-50'}
               >
                 {f === 'ALL' ? 'All' : f.replace(/_/g, ' ')}
               </Button>
@@ -180,30 +183,30 @@ export default function SellerOrdersPage() {
         <CardContent>
           {loading ? (
             <div className="flex items-center justify-center min-h-[200px]">
-              <div className="text-slate-500">Loading orders...</div>
+              <div className="text-neutral-500">Loading orders...</div>
             </div>
           ) : filteredOrders.length === 0 ? (
             <div className="flex flex-col items-center justify-center min-h-[200px]">
-              <Package className="h-12 w-12 text-slate-400 mb-4" />
-              <p className="text-slate-600">No orders found</p>
+              <Package className="h-12 w-12 text-neutral-300 mb-4" />
+              <p className="text-neutral-600 font-medium">No orders found</p>
             </div>
           ) : (
             <div className="space-y-4">
               {filteredOrders.map((order) => (
-                <div key={order.id} className="rounded-lg border border-slate-200 p-4 hover:bg-slate-50 transition-colors">
+                <div key={order.id} className="rounded-xl border border-neutral-200 p-5 hover:bg-neutral-50 transition-colors">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-slate-100 rounded-md flex items-center justify-center">
-                        <Package className="h-6 w-6 text-slate-600" />
+                      <div className="w-12 h-12 bg-neutral-100 rounded-xl flex items-center justify-center">
+                        <Package className="h-6 w-6 text-neutral-600" />
                       </div>
                       <div>
                         <Link href={`/seller/orders/${order.id}`} className="font-medium hover:underline">
                           #{order.orderNumber}
                         </Link>
-                        <p className="text-sm text-slate-500">
+                        <p className="text-sm text-neutral-500">
                           {order.buyer ? `${order.buyer.firstName} ${order.buyer.lastName}` : 'Unknown Buyer'} • {new Date(order.createdAt).toLocaleDateString()}
                         </p>
-                        <p className="text-xs text-slate-500">{order.items?.length || 0} items</p>
+                        <p className="text-xs text-neutral-500">{order.items?.length || 0} items</p>
                       </div>
                     </div>
                     <div className="text-right">
@@ -215,7 +218,7 @@ export default function SellerOrdersPage() {
                   </div>
                   <div className="mt-4 flex flex-wrap gap-2">
                     <Link href={`/seller/orders/${order.id}`}>
-                      <Button variant="outline" size="sm">
+                      <Button variant="outline" size="sm" className="rounded-full">
                         View Details
                         <ChevronRight className="ml-1 h-4 w-4" />
                       </Button>
@@ -225,6 +228,7 @@ export default function SellerOrdersPage() {
                         size="sm"
                         onClick={() => handleStatusUpdate(order.id, 'CONFIRMED')}
                         disabled={updatingOrder === order.id}
+                        className="rounded-full bg-black text-white hover:bg-neutral-800"
                       >
                         {updatingOrder === order.id ? 'Updating...' : 'Confirm'}
                       </Button>
@@ -234,6 +238,7 @@ export default function SellerOrdersPage() {
                         size="sm"
                         onClick={() => handleStatusUpdate(order.id, 'PROCESSING')}
                         disabled={updatingOrder === order.id}
+                        className="rounded-full bg-black text-white hover:bg-neutral-800"
                       >
                         {updatingOrder === order.id ? 'Updating...' : 'Process'}
                       </Button>
@@ -241,7 +246,7 @@ export default function SellerOrdersPage() {
                     {order.status === 'PROCESSING' && (
                       <div className="flex gap-2">
                         <Select onValueChange={(courierId) => handleStatusUpdate(order.id, 'TO_SHIP', courierId)}>
-                          <SelectTrigger className="w-[200px] h-9">
+                          <SelectTrigger className="w-[200px] h-9 rounded-xl border-neutral-200">
                             <SelectValue placeholder="Assign courier & ship" />
                           </SelectTrigger>
                           <SelectContent>
@@ -259,6 +264,7 @@ export default function SellerOrdersPage() {
                         size="sm"
                         onClick={() => handleStatusUpdate(order.id, 'DELIVERED')}
                         disabled={updatingOrder === order.id}
+                        className="rounded-full bg-black text-white hover:bg-neutral-800"
                       >
                         {updatingOrder === order.id ? 'Updating...' : 'Mark Delivered'}
                       </Button>

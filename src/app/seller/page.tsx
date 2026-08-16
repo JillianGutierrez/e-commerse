@@ -2,7 +2,7 @@ import prisma from '@/lib/prisma'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { Package, ClipboardList, TrendingUp, Wallet } from 'lucide-react'
+import { Package, ClipboardList, TrendingUp, Wallet, Sparkles } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
@@ -95,71 +95,75 @@ export default async function SellerDashboard() {
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Welcome!</h1>
-          <p className="text-slate-600 mt-1">Please complete your seller profile to get started.</p>
+          <h1 className="text-3xl font-semibold tracking-tight">Welcome!</h1>
+          <p className="text-neutral-600 mt-2">Please complete your seller profile to get started.</p>
         </div>
         <Link href="/seller/account">
-          <Button>Complete Profile</Button>
+          <Button className="rounded-full bg-black text-white hover:bg-neutral-800">Complete Profile</Button>
         </Link>
       </div>
     )
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900">Welcome back, {session.user.name || 'Seller'}!</h1>
-        <p className="text-slate-600 mt-1">Here&apos;s what&apos;s happening with your store today.</p>
+        <div className="flex items-center gap-2 mb-3">
+          <Sparkles className="h-5 w-5 text-[#D4AF37]" />
+          <span className="text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase">Dashboard</span>
+        </div>
+        <h1 className="text-3xl font-semibold tracking-tight">Welcome back, {session.user.name || 'Seller'}!</h1>
+        <p className="text-neutral-600 mt-2">Here&apos;s what&apos;s happening with your store today.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Total Revenue</CardTitle>
-            <TrendingUp className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-neutral-600">Total Revenue</CardTitle>
+            <TrendingUp className="h-4 w-4 text-neutral-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{formatCurrency(data.totalRevenue)}</div>
-            <p className="text-xs text-slate-500 mt-1">{data.totalOrders} total orders</p>
+            <p className="text-xs text-neutral-500 mt-1">{data.totalOrders} total orders</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Total Products</CardTitle>
-            <Package className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-neutral-600">Total Products</CardTitle>
+            <Package className="h-4 w-4 text-neutral-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{data.totalProducts}</div>
-            <p className="text-xs text-slate-500 mt-1">{data.topProducts.filter((p: any) => p.stock < 10).length} low stock</p>
+            <p className="text-xs text-neutral-500 mt-1">{data.topProducts.filter((p: any) => p.stock < 10).length} low stock</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Pending Orders</CardTitle>
-            <ClipboardList className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-neutral-600">Pending Orders</CardTitle>
+            <ClipboardList className="h-4 w-4 text-neutral-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{data.pendingOrders}</div>
-            <p className="text-xs text-slate-500 mt-1">Requires attention</p>
+            <p className="text-xs text-neutral-500 mt-1">Requires attention</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Wallet Balance</CardTitle>
-            <Wallet className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-neutral-600">Wallet Balance</CardTitle>
+            <Wallet className="h-4 w-4 text-neutral-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{formatCurrency(data.sellerProfile.walletBalance)}</div>
-            <p className="text-xs text-slate-500 mt-1">Available funds</p>
+            <p className="text-xs text-neutral-500 mt-1">Available funds</p>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader>
             <CardTitle>Sales Overview</CardTitle>
             <CardDescription>Sales for the last 7 days</CardDescription>
@@ -169,22 +173,22 @@ export default async function SellerDashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader>
             <CardTitle>Recent Orders</CardTitle>
             <CardDescription>Your latest orders</CardDescription>
           </CardHeader>
           <CardContent>
             {data.recentOrders.length === 0 ? (
-              <p className="text-sm text-slate-500">No orders yet.</p>
+              <p className="text-sm text-neutral-500">No orders yet.</p>
             ) : (
               <div className="space-y-4">
                 {data.recentOrders.map((order: any) => (
                   <Link key={order.id} href={`/seller/orders/${order.id}`}>
-                    <div className="flex items-center justify-between rounded-lg border border-slate-200 p-4 hover:bg-slate-50 transition-colors">
+                    <div className="flex items-center justify-between rounded-xl border border-neutral-200 p-4 hover:bg-neutral-50 transition-colors">
                       <div>
                         <p className="font-medium text-sm">#{order.orderNumber}</p>
-                        <p className="text-xs text-slate-500">{order.items?.length || 0} items</p>
+                        <p className="text-xs text-neutral-500">{order.items?.length || 0} items</p>
                       </div>
                       <div className="text-right">
                         <p className="font-medium text-sm">{formatCurrency(order.totalAmount)}</p>
@@ -203,29 +207,29 @@ export default async function SellerDashboard() {
             )}
             {data.recentOrders.length > 0 && (
               <Link href="/seller/orders">
-                <Button variant="outline" className="w-full mt-4">View All Orders</Button>
+                <Button variant="outline" className="w-full mt-4 rounded-full">View All Orders</Button>
               </Link>
             )}
           </CardContent>
         </Card>
       </div>
 
-      <Card>
+      <Card className="border border-neutral-200 shadow-sm">
         <CardHeader>
           <CardTitle>Low Stock Products</CardTitle>
           <CardDescription>Products running low on inventory</CardDescription>
         </CardHeader>
         <CardContent>
           {data.topProducts.length === 0 ? (
-            <p className="text-sm text-slate-500">No products yet.</p>
+            <p className="text-sm text-neutral-500">No products yet.</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {data.topProducts.map((product: any) => (
                 <Link key={product.id} href={`/seller/products/${product.id}/edit`}>
-                  <div className="flex items-center justify-between rounded-lg border border-slate-200 p-4 hover:bg-slate-50 transition-colors">
+                  <div className="flex items-center justify-between rounded-xl border border-neutral-200 p-4 hover:bg-neutral-50 transition-colors">
                     <div>
                       <p className="font-medium text-sm">{product.name}</p>
-                      <p className="text-xs text-slate-500">{formatCurrency(product.price)}</p>
+                      <p className="text-xs text-neutral-500">{formatCurrency(product.price)}</p>
                     </div>
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                       product.stock < 5 ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
@@ -239,7 +243,7 @@ export default async function SellerDashboard() {
           )}
           {data.topProducts.length > 0 && (
             <Link href="/seller/products">
-              <Button variant="outline" className="w-full mt-4">Manage Products</Button>
+              <Button variant="outline" className="w-full mt-4 rounded-full">Manage Products</Button>
             </Link>
           )}
         </CardContent>

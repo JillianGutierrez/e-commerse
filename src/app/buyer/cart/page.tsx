@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { toast } from 'sonner'
-import { Trash2, Minus, Plus, ShoppingCart, Tag } from 'lucide-react'
+import { Trash2, Minus, Plus, ShoppingCart, Tag, Sparkles } from 'lucide-react'
 
 interface CartItem {
   id: string
@@ -148,30 +148,34 @@ export default function CartPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-slate-500">Loading cart...</div>
+        <div className="text-neutral-500">Loading cart...</div>
       </div>
     )
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900">Shopping Cart</h1>
-        <p className="text-slate-600 mt-1">{cartItems.length} items in your cart</p>
+        <div className="flex items-center gap-2 mb-3">
+          <Sparkles className="h-5 w-5 text-[#D4AF37]" />
+          <span className="text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase">Review</span>
+        </div>
+        <h1 className="text-3xl font-semibold tracking-tight">Shopping Cart</h1>
+        <p className="text-neutral-600 mt-2">{cartItems.length} items in your cart</p>
       </div>
 
       {cartItems.length === 0 ? (
-        <Card>
-          <CardContent className="py-12 text-center">
-            <ShoppingCart className="h-12 w-12 text-slate-400 mx-auto mb-4" />
-            <p className="text-slate-600">Your cart is empty</p>
-            <Button className="mt-4" onClick={() => router.push('/buyer/categories')}>
+        <Card className="border border-neutral-200 shadow-sm">
+          <CardContent className="py-16 text-center">
+            <ShoppingCart className="h-12 w-12 text-neutral-300 mx-auto mb-4" />
+            <p className="text-neutral-600 font-medium">Your cart is empty</p>
+            <Button className="mt-6 rounded-full bg-black text-white hover:bg-neutral-800" onClick={() => router.push('/buyer/categories')}>
               Start Shopping
             </Button>
           </CardContent>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-4">
             {cartItems.map((item) => {
               const price = item.product?.discount
@@ -179,37 +183,37 @@ export default function CartPage() {
                 : item.product?.price || 0
 
               return (
-                <Card key={item.id}>
-                  <CardContent className="p-4">
-                    <div className="flex gap-4">
-                      <div className="w-24 h-24 bg-slate-100 rounded-md flex items-center justify-center shrink-0">
+                <Card key={item.id} className="border border-neutral-200 shadow-sm">
+                  <CardContent className="p-5">
+                    <div className="flex gap-5">
+                      <div className="w-28 h-28 bg-neutral-100 rounded-xl flex items-center justify-center shrink-0 overflow-hidden">
                         {item.product?.images ? (
-                          <img src={item.product.images} alt={item.product.name} className="w-full h-full object-cover rounded-md" />
+                          <img src={item.product.images} alt={item.product.name} className="w-full h-full object-cover" />
                         ) : (
-                          <ShoppingCart className="h-8 w-8 text-slate-400" />
+                          <ShoppingCart className="h-8 w-8 text-neutral-400" />
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-medium text-sm line-clamp-1">{item.product?.name}</h3>
+                        <h3 className="font-medium text-base line-clamp-1">{item.product?.name}</h3>
                         {item.variation && (
-                          <p className="text-xs text-slate-500 mt-1">Variation: {item.variation}</p>
+                          <p className="text-xs text-neutral-500 mt-1">Variation: {item.variation}</p>
                         )}
-                        <p className="text-sm font-medium mt-1">{formatCurrency(price)}</p>
-                        <div className="flex items-center gap-2 mt-2">
+                        <p className="text-sm font-medium mt-2">{formatCurrency(price)}</p>
+                        <div className="flex items-center gap-2 mt-3">
                           <Button
                             variant="outline"
                             size="icon"
-                            className="h-8 w-8"
+                            className="h-8 w-8 rounded-lg border-neutral-200"
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
                             disabled={item.quantity <= 1}
                           >
                             <Minus className="h-3 w-3" />
                           </Button>
-                          <span className="w-8 text-center text-sm">{item.quantity}</span>
+                          <span className="w-8 text-center text-sm font-medium">{item.quantity}</span>
                           <Button
                             variant="outline"
                             size="icon"
-                            className="h-8 w-8"
+                            className="h-8 w-8 rounded-lg border-neutral-200"
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
                             disabled={item.quantity >= (item.product?.stock || 0)}
                           >
@@ -218,7 +222,7 @@ export default function CartPage() {
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 ml-auto text-red-600 hover:text-red-700"
+                            className="h-8 w-8 ml-auto text-red-600 hover:text-red-700 hover:bg-red-50"
                             onClick={() => removeItem(item.id)}
                           >
                             <Trash2 className="h-4 w-4" />
@@ -236,42 +240,42 @@ export default function CartPage() {
           </div>
 
           <div>
-            <Card>
+            <Card className="border border-neutral-200 shadow-sm sticky top-8">
               <CardHeader>
-                <CardTitle>Order Summary</CardTitle>
+                <CardTitle className="text-lg">Order Summary</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
+              <CardContent className="space-y-5">
+                <div className="space-y-3">
                   <div className="flex justify-between text-sm">
-                    <span className="text-slate-600">Subtotal</span>
+                    <span className="text-neutral-600">Subtotal</span>
                     <span>{formatCurrency(subtotal)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-slate-600">Platform Fee (10%)</span>
+                    <span className="text-neutral-600">Platform Fee (10%)</span>
                     <span>{formatCurrency(platformFee)}</span>
                   </div>
                   {discount > 0 && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-slate-600">Discount</span>
+                      <span className="text-neutral-600">Discount</span>
                       <span className="text-green-600">-{formatCurrency(discount)}</span>
                     </div>
                   )}
-                  <div className="border-t pt-2 flex justify-between font-medium">
+                  <div className="border-t border-neutral-200 pt-3 flex justify-between font-semibold text-base">
                     <span>Total</span>
                     <span>{formatCurrency(total)}</span>
                   </div>
                 </div>
 
                 {!showCheckout ? (
-                  <Button className="w-full" onClick={() => setShowCheckout(true)}>
+                  <Button className="w-full rounded-full bg-black text-white hover:bg-neutral-800 h-12" onClick={() => setShowCheckout(true)}>
                     Proceed to Checkout
                   </Button>
                 ) : (
-                  <form onSubmit={handleCheckout} className="space-y-4">
+                  <form onSubmit={handleCheckout} className="space-y-5">
                     <div className="space-y-2">
-                      <Label>Payment Method</Label>
+                      <Label className="text-sm font-medium">Payment Method</Label>
                       <Select value={paymentMethod} onValueChange={setPaymentMethod}>
-                        <SelectTrigger>
+                        <SelectTrigger className="rounded-xl border-neutral-200 h-12">
                           <SelectValue placeholder="Select payment method" />
                         </SelectTrigger>
                         <SelectContent>
@@ -284,25 +288,26 @@ export default function CartPage() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label>Voucher Code (optional)</Label>
+                      <Label className="text-sm font-medium">Voucher Code (optional)</Label>
                       <div className="flex gap-2">
                         <Input
                           value={voucherCode}
                           onChange={(e) => setVoucherCode(e.target.value)}
                           placeholder="Enter voucher code"
+                          className="rounded-xl border-neutral-200 h-12"
                         />
-                        <Button type="button" variant="outline" size="icon">
+                        <Button type="button" variant="outline" size="icon" className="rounded-xl border-neutral-200 h-12 w-12">
                           <Tag className="h-4 w-4" />
                         </Button>
                       </div>
                     </div>
 
-                    <div className="border-t pt-4">
-                      <div className="flex justify-between font-medium mb-4">
+                    <div className="border-t border-neutral-200 pt-5">
+                      <div className="flex justify-between font-semibold mb-5">
                         <span>Total</span>
                         <span>{formatCurrency(total)}</span>
                       </div>
-                      <Button type="submit" className="w-full" disabled={checkoutLoading}>
+                      <Button type="submit" className="w-full rounded-full bg-black text-white hover:bg-neutral-800 h-12" disabled={checkoutLoading}>
                         {checkoutLoading ? 'Placing Order...' : 'Place Order'}
                       </Button>
                     </div>

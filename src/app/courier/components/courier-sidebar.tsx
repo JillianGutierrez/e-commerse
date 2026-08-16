@@ -15,6 +15,7 @@ import {
   LogOut,
   ChevronLeft,
   Menu,
+  Sparkles,
 } from 'lucide-react'
 
 const navItems = [
@@ -37,26 +38,29 @@ export function CourierSidebar() {
   return (
     <aside
       className={cn(
-        'fixed left-0 top-0 z-40 h-screen border-r border-slate-200 bg-white transition-all duration-300',
+        'fixed left-0 top-0 z-40 h-screen border-r border-neutral-200 bg-white transition-all duration-300',
         collapsed ? 'w-16' : 'w-64'
       )}
     >
       <div className="flex h-full flex-col">
-        <div className="flex h-16 items-center justify-between border-b border-slate-200 px-4">
+        <div className="flex h-16 items-center justify-between border-b border-neutral-200 px-4">
           {!collapsed && (
-            <h1 className="text-lg font-bold text-slate-900">Courier Portal</h1>
+            <Link href="/courier" className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-[#D4AF37]" />
+              <span className="text-lg font-semibold tracking-tight">Shopora</span>
+            </Link>
           )}
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setCollapsed(!collapsed)}
-            className="h-8 w-8"
+            className="h-8 w-8 ml-auto"
           >
             {collapsed ? <Menu className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
           </Button>
         </div>
 
-        <nav className="flex-1 space-y-1 p-2">
+        <nav className="flex-1 space-y-1 p-3">
           {navItems.map((item) => {
             const isActive = pathname === item.href || (item.href !== '/courier' && pathname.startsWith(item.href))
             return (
@@ -64,10 +68,10 @@ export function CourierSidebar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                  'flex items-center rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200',
                   isActive
-                    ? 'bg-slate-900 text-white'
-                    : 'text-slate-700 hover:bg-slate-100'
+                    ? 'bg-black text-white shadow-sm'
+                    : 'text-neutral-700 hover:bg-neutral-100'
                 )}
                 title={collapsed ? item.label : undefined}
               >
@@ -78,11 +82,11 @@ export function CourierSidebar() {
           })}
         </nav>
 
-        <div className="border-t border-slate-200 p-2">
+        <div className="border-t border-neutral-200 p-3">
           <button
             onClick={handleLogout}
             className={cn(
-              'flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50',
+              'flex w-full items-center rounded-xl px-3 py-2.5 text-sm font-medium text-red-600 transition-colors hover:bg-red-50',
               collapsed && 'justify-center'
             )}
             title={collapsed ? 'Logout' : undefined}

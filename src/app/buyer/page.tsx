@@ -5,7 +5,7 @@ import prisma from '@/lib/prisma'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { Package, ShoppingCart, TrendingUp, User } from 'lucide-react'
+import { Package, ShoppingCart, TrendingUp, User, Sparkles } from 'lucide-react'
 import { Order, CartItem } from '@/types/index'
 
 async function getDashboardData(userId: string) {
@@ -64,75 +64,79 @@ export default async function BuyerDashboard() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900">Welcome back, {session.user.name || 'Buyer'}!</h1>
-        <p className="text-slate-600 mt-1">Here's what's happening with your account today.</p>
+        <div className="flex items-center gap-2 mb-3">
+          <Sparkles className="h-5 w-5 text-[#D4AF37]" />
+          <span className="text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase">Dashboard</span>
+        </div>
+        <h1 className="text-3xl font-semibold tracking-tight">Welcome back, {session.user.name || 'Buyer'}!</h1>
+        <p className="text-neutral-600 mt-2">Here&apos;s what&apos;s happening with your account today.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Total Orders</CardTitle>
-            <Package className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-neutral-600">Total Orders</CardTitle>
+            <Package className="h-4 w-4 text-neutral-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{data.totalOrders}</div>
-            <p className="text-xs text-slate-500 mt-1">{data.pendingOrders} pending orders</p>
+            <p className="text-xs text-neutral-500 mt-1">{data.pendingOrders} pending orders</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Total Spent</CardTitle>
-            <TrendingUp className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-neutral-600">Total Spent</CardTitle>
+            <TrendingUp className="h-4 w-4 text-neutral-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{formatCurrency(data.totalSpent)}</div>
-            <p className="text-xs text-slate-500 mt-1">Lifetime purchases</p>
+            <p className="text-xs text-neutral-500 mt-1">Lifetime purchases</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">Cart Items</CardTitle>
-            <ShoppingCart className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-neutral-600">Cart Items</CardTitle>
+            <ShoppingCart className="h-4 w-4 text-neutral-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{data.cartCount}</div>
-            <p className="text-xs text-slate-500 mt-1">Items waiting checkout</p>
+            <p className="text-xs text-neutral-500 mt-1">Items waiting checkout</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-slate-600">In Transit</CardTitle>
-            <Package className="h-4 w-4 text-slate-400" />
+            <CardTitle className="text-sm font-medium text-neutral-600">In Transit</CardTitle>
+            <Package className="h-4 w-4 text-neutral-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{data.inTransitOrders}</div>
-            <p className="text-xs text-slate-500 mt-1">Orders on the way</p>
+            <p className="text-xs text-neutral-500 mt-1">Orders on the way</p>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader>
             <CardTitle>Recent Orders</CardTitle>
             <CardDescription>Your latest purchases</CardDescription>
           </CardHeader>
           <CardContent>
             {data.orders.length === 0 ? (
-              <p className="text-sm text-slate-500">No orders yet. Start shopping!</p>
+              <p className="text-sm text-neutral-500">No orders yet. Start shopping!</p>
             ) : (
               <div className="space-y-4">
                 {data.orders.slice(0, 5).map((order) => (
                   <Link key={order.id} href={`/buyer/orders/${order.id}`}>
-                    <div className="flex items-center justify-between rounded-lg border border-slate-200 p-4 hover:bg-slate-50 transition-colors">
+                    <div className="flex items-center justify-between rounded-xl border border-neutral-200 p-4 hover:bg-neutral-50 transition-colors">
                       <div>
                         <p className="font-medium text-sm">#{order.orderNumber}</p>
-                        <p className="text-xs text-slate-500">{order.items?.length || 0} items</p>
+                        <p className="text-xs text-neutral-500">{order.items?.length || 0} items</p>
                       </div>
                       <div className="text-right">
                         <p className="font-medium text-sm">{formatCurrency(order.totalAmount)}</p>
@@ -151,38 +155,38 @@ export default async function BuyerDashboard() {
             )}
             {data.orders.length > 0 && (
               <Link href="/buyer/orders">
-                <Button variant="outline" className="w-full mt-4">View All Orders</Button>
+                <Button variant="outline" className="w-full mt-4 rounded-full">View All Orders</Button>
               </Link>
             )}
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-neutral-200 shadow-sm">
           <CardHeader>
             <CardTitle>Quick Actions</CardTitle>
             <CardDescription>Frequently used features</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             <Link href="/buyer/categories">
-              <Button variant="outline" className="w-full justify-start">
+              <Button variant="outline" className="w-full justify-start rounded-full">
                 <Package className="mr-2 h-4 w-4" />
                 Browse Categories
               </Button>
             </Link>
             <Link href="/buyer/search">
-              <Button variant="outline" className="w-full justify-start">
+              <Button variant="outline" className="w-full justify-start rounded-full">
                 <ShoppingCart className="mr-2 h-4 w-4" />
                 Search Products
               </Button>
             </Link>
             <Link href="/buyer/cart">
-              <Button variant="outline" className="w-full justify-start">
+              <Button variant="outline" className="w-full justify-start rounded-full">
                 <ShoppingCart className="mr-2 h-4 w-4" />
                 View Cart ({data.cartCount})
               </Button>
             </Link>
             <Link href="/buyer/account">
-              <Button variant="outline" className="w-full justify-start">
+              <Button variant="outline" className="w-full justify-start rounded-full">
                 <User className="mr-2 h-4 w-4" />
                 Manage Account
               </Button>
