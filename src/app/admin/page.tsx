@@ -43,7 +43,7 @@ async function getStats() {
       orderBy: { createdAt: 'desc' },
       take: 5,
       include: {
-        buyer: { select: { id: true, firstName: true, lastName: true } },
+        buyer: { include: { user: { select: { firstName: true, lastName: true } } } },
         seller: { select: { id: true, businessName: true } },
       },
     }),
@@ -217,7 +217,7 @@ export default async function AdminDashboard() {
                     <div>
                       <p className="font-medium text-sm">#{order.orderNumber}</p>
                       <p className="text-xs text-neutral-500">
-                        {order.buyer ? `${order.buyer.firstName} ${order.buyer.lastName}` : 'Unknown Buyer'} &bull;{' '}
+                        {order.buyer ? `${order.buyer.user.firstName} ${order.buyer.user.lastName}` : 'Unknown Buyer'} &bull;{' '}
                         {order.seller ? order.seller.businessName : 'Unknown Seller'}
                       </p>
                       <p className="text-xs text-neutral-500">{new Date(order.createdAt).toLocaleDateString()}</p>

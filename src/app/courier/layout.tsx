@@ -15,8 +15,13 @@ export default async function CourierLayout({
     redirect('/auth/login')
   }
 
+  const rolePortal: Record<string, string> = {
+    ADMIN: '/admin',
+    BUYER: '/buyer',
+    SELLER: '/seller',
+  }
   if (session.user?.role !== 'COURIER') {
-    redirect('/')
+    redirect(rolePortal[session.user?.role] ?? '/')
   }
 
   return (

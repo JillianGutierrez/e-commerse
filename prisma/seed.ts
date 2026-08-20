@@ -1,13 +1,10 @@
-import 'dotenv/config'
+import { PrismaClient } from '@prisma/client'
 import { PrismaClient } from '@prisma/client'
 import { PrismaLibSql } from '@prisma/adapter-libsql'
 import bcrypt from 'bcryptjs'
+import path from 'path'
 
-const adapter = new PrismaLibSql({
-  url: process.env.DATABASE_URL || 'file:./dev.db',
-})
-
-const prisma = new PrismaClient({ adapter })
+let prisma: PrismaClient
 
 const ERP_CATEGORIES = [
   { name: 'Pet Supplies', subcategories: ['Dog Food & Treats', 'Cat Litter & Accessories', 'Aquariums & Fish Supplies', 'Bird Feeders & Food', 'Pet Grooming Products', 'Pet Health & Wellness'] },
@@ -46,6 +43,12 @@ const SAMPLE_PRODUCTS = [
 const TEST_PASSWORD = 'password123'
 
 async function main() {
+  // Use absolute path directly - avoids env var resolution issues on Windows
+  const dbUrl = `file:${path.resolve(__dirname, '..', 'dev.db').replace(/\\/g, '/')}`
+  console.log('DB URL:', dbUrl)
+  const adapter = new PrismaLibSql({ url: dbUrl })
+  prisma = new PrismaClient({ adapter })
+
   console.log('Starting seed...')
 
   const existingCategories = await prisma.category.count()

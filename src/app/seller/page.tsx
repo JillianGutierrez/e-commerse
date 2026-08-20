@@ -36,7 +36,7 @@ async function getDashboardData(userId: string) {
           },
         },
         buyer: {
-          select: { id: true, firstName: true, lastName: true, email: true },
+          include: { user: { select: { id: true, firstName: true, lastName: true, email: true } } },
         },
       },
       orderBy: { createdAt: 'desc' },
