@@ -15,8 +15,13 @@ export default async function SellerLayout({
     redirect('/auth/login')
   }
 
+  const rolePortal: Record<string, string> = {
+    ADMIN: '/admin',
+    BUYER: '/buyer',
+    COURIER: '/courier',
+  }
   if (session.user?.role !== 'SELLER') {
-    redirect('/')
+    redirect(rolePortal[session.user?.role] ?? '/')
   }
 
   return (

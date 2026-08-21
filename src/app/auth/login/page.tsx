@@ -1,21 +1,64 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
-import { Sparkles } from 'lucide-react'
+import { Sparkles, Eye, EyeOff } from 'lucide-react'
 
-export default function LoginPage() {
+// Role-to-portal mapping
+const ROLE_PORTALS: Record<string, string> = {
+  ADMIN: '/admin',
+  SELLER: '/seller',
+  COURIER: '/courier',
+  BUYER: '/buyer',
+}
+
+// The portal prefixes we allow as callbackUrl destinations
+const ALLOWED_PORTALS = ['/admin', '/seller', '/courier', '/buyer']
+
+function LoginForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl') ?? ''
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+
+  /**
+   * Returns the destination after login:
+   * - If callbackUrl points to a portal the user's role can access, use it.
+   * - Otherwise fall back to the role's default portal.
+   */
+  function resolveRedirect(role: string): string {
+    const defaultPortal = ROLE_PORTALS[role] ?? '/'
+
+    if (!callbackUrl) return defaultPortal
+
+    // Only honour same-origin paths that start with an allowed portal prefix
+    const isAllowed = ALLOWED_PORTALS.some(
+      (p) => callbackUrl === p || callbackUrl.startsWith(p + '/')
+    )
+    if (!isAllowed) return defaultPortal
+
+    // Make sure the callbackUrl portal matches the user's role
+    const callbackPortal = ALLOWED_PORTALS.find(
+      (p) => callbackUrl === p || callbackUrl.startsWith(p + '/')
+    )
+    if (callbackPortal && callbackPortal === defaultPortal) {
+      return callbackUrl
+    }
+
+    // Role mismatch — send them to their own portal instead
+    return defaultPortal
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,15 +69,13 @@ export default function LoginPage() {
         password,
         redirect: false,
       })
+
       if (res?.ok) {
         const sessionRes = await fetch('/api/auth/session')
         if (sessionRes.ok) {
           const session = await sessionRes.json()
-          const role = session?.user?.role
-          if (role === 'ADMIN') router.push('/admin')
-          else if (role === 'SELLER') router.push('/seller')
-          else if (role === 'COURIER') router.push('/courier')
-          else router.push('/buyer')
+          const role: string = session?.user?.role ?? ''
+          router.push(resolveRedirect(role))
         } else {
           router.push('/')
         }
@@ -51,7 +92,8 @@ export default function LoginPage() {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signIn('google', { callbackUrl: '/' })
+      // Preserve the callbackUrl for Google sign-in too
+      await signIn('google', { callbackUrl: callbackUrl || '/' })
     } catch {
       toast.error('Something went wrong')
     }
@@ -86,16 +128,31 @@ export default function LoginPage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password" className="text-sm font-medium">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="rounded-xl border-neutral-200 h-12"
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="rounded-xl border-neutral-200 h-12 pr-12"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
+                    tabIndex={-1}
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  >
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
               </div>
-              <Button type="submit" className="w-full rounded-xl h-12 bg-black text-white hover:bg-neutral-800" disabled={loading}>
+              <Button
+                type="submit"
+                className="w-full rounded-xl h-12 bg-black text-white hover:bg-neutral-800"
+                disabled={loading}
+              >
                 {loading ? 'Signing in...' : 'Sign In'}
               </Button>
             </form>
@@ -129,5 +186,14 @@ export default function LoginPage() {
         </Card>
       </div>
     </div>
+  )
+}
+
+// useSearchParams must be wrapped in Suspense
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   )
 }

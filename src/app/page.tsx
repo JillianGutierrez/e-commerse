@@ -25,9 +25,9 @@ export default function Home() {
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <Link href="/register">
-                  <Button size="lg" className="rounded-full px-10 bg-white text-black hover:bg-neutral-100 border-0 h-14 text-base">
+                  <Button size="lg" className="group/btn rounded-full px-10 bg-white text-black hover:bg-neutral-100 border-0 h-14 text-base">
                     Get Started
-                    <ArrowRight className="ml-2 h-5 w-5" />
+                    <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover/btn:translate-x-3" />
                   </Button>
                 </Link>
                 <Link href="/auth/login">
@@ -52,7 +52,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Link href="/buyer">
+            <Link href="/auth/login?callbackUrl=/buyer">
               <Card className="group relative overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-black/10 cursor-pointer h-full border border-neutral-200 bg-white hover:border-neutral-300">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <CardHeader className="text-center relative pt-10 pb-6">
@@ -65,14 +65,14 @@ export default function Home() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="relative pb-10">
-                  <Button variant="outline" className="w-full rounded-full h-12 text-base font-medium group-hover:bg-black group-hover:text-white group-hover:border-black transition-all duration-300">
+                  <Button variant="outline" className="w-full rounded-full h-12 text-base font-medium hover:bg-black hover:text-white hover:border-black hover:scale-105 transition-all duration-300">
                     Enter Portal
                   </Button>
                 </CardContent>
               </Card>
             </Link>
 
-            <Link href="/seller">
+            <Link href="/auth/login?callbackUrl=/seller">
               <Card className="group relative overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-black/10 cursor-pointer h-full border border-neutral-200 bg-white hover:border-neutral-300">
                 <div className="absolute inset-0 bg-gradient-to-br from-green-50/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <CardHeader className="text-center relative pt-10 pb-6">
@@ -85,14 +85,14 @@ export default function Home() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="relative pb-10">
-                  <Button variant="outline" className="w-full rounded-full h-12 text-base font-medium group-hover:bg-black group-hover:text-white group-hover:border-black transition-all duration-300">
+                  <Button variant="outline" className="w-full rounded-full h-12 text-base font-medium hover:bg-black hover:text-white hover:border-black hover:scale-105 transition-all duration-300">
                     Enter Portal
                   </Button>
                 </CardContent>
               </Card>
             </Link>
 
-            <Link href="/courier">
+            <Link href="/auth/login?callbackUrl=/courier">
               <Card className="group relative overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-black/10 cursor-pointer h-full border border-neutral-200 bg-white hover:border-neutral-300">
                 <div className="absolute inset-0 bg-gradient-to-br from-orange-50/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <CardHeader className="text-center relative pt-10 pb-6">
@@ -105,14 +105,14 @@ export default function Home() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="relative pb-10">
-                  <Button variant="outline" className="w-full rounded-full h-12 text-base font-medium group-hover:bg-black group-hover:text-white group-hover:border-black transition-all duration-300">
+                  <Button variant="outline" className="w-full rounded-full h-12 text-base font-medium hover:bg-black hover:text-white hover:border-black hover:scale-105 transition-all duration-300">
                     Enter Portal
                   </Button>
                 </CardContent>
               </Card>
             </Link>
 
-            <Link href="/admin">
+            <Link href="/auth/login?callbackUrl=/admin">
               <Card className="group relative overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-black/10 cursor-pointer h-full border border-neutral-200 bg-white hover:border-neutral-300">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-50/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <CardHeader className="text-center relative pt-10 pb-6">
@@ -125,7 +125,7 @@ export default function Home() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="relative pb-10">
-                  <Button variant="outline" className="w-full rounded-full h-12 text-base font-medium group-hover:bg-black group-hover:text-white group-hover:border-black transition-all duration-300">
+                  <Button variant="outline" className="w-full rounded-full h-12 text-base font-medium hover:bg-black hover:text-white hover:border-black hover:scale-105 transition-all duration-300">
                     Enter Portal
                   </Button>
                 </CardContent>
