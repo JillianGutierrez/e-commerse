@@ -11,7 +11,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Luxe Commerce',
+  title: 'Luxe Zaylo',
   description: 'Premium multi-role ecommerce platform',
 }
 

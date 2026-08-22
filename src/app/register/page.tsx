@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -154,10 +155,10 @@ export default function RegisterPage() {
         <div className="text-center mb-10">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
             <Sparkles className="h-6 w-6 text-[#D4AF37]" />
-            <span className="text-2xl font-semibold tracking-tight">Shopora</span>
+            <Image src="/ZAYLO_LOGO_DARK.png" alt="ZAYLO" width={100} height={36} />
           </Link>
           <h1 className="text-2xl font-semibold tracking-tight">Create an Account</h1>
-          <p className="text-neutral-500 mt-2">Join Shopora and start your journey</p>
+          <p className="text-neutral-500 mt-2">Join ZAYLO and start your journey</p>
         </div>
 
         <Card className="border-0 shadow-lg shadow-black/5 rounded-2xl">

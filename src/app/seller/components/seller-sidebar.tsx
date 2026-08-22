@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -49,7 +50,7 @@ export function SellerSidebar() {
           {!collapsed && (
             <Link href="/seller" className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-[#D4AF37]" />
-              <span className="text-lg font-semibold tracking-tight">Shopora</span>
+              <Image src="/ZAYLO_LOGO_DARK.png" alt="ZAYLO" width={80} height={28} />
             </Link>
           )}
           <Button

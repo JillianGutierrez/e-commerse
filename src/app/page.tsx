@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { User, Store, Truck, Shield, ArrowRight, Sparkles } from 'lucide-react'
@@ -18,10 +19,10 @@ export default function Home() {
                 <span className="text-xs font-medium tracking-[0.3em] text-[#D4AF37] uppercase">Premium Beauty & Lifestyle</span>
               </div>
               <h1 className="text-6xl font-bold tracking-tight text-white sm:text-8xl">
-                Shopora
+                <Image src="/ZAYLO_LOGO_LIGHT.png" alt="ZAYLO" width={320} height={100} className="mx-auto" />
               </h1>
               <p className="mt-8 text-lg leading-8 text-neutral-300 text-balance max-w-2xl mx-auto">
-                Discover luxury products from trusted sellers. Shop with confidence, track in real-time, and experience premium delivery.
+                Driven by passion. Defined by your origin.
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <Link href="/register">
@@ -137,7 +138,7 @@ export default function Home() {
         <section className="border-t border-neutral-100 bg-neutral-50/50">
           <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
             <div className="mx-auto max-w-2xl text-center mb-20">
-              <span className="text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase">Why Shopora</span>
+              <span className="text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase">Why ZAYLO</span>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight text-black sm:text-4xl">
                 The Premium Choice
               </h2>
@@ -180,10 +181,10 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-[#D4AF37]" />
-              <span className="text-lg font-semibold tracking-tight">Shopora</span>
+              <Image src="/ZAYLO_LOGO_DARK.png" alt="ZAYLO" width={80} height={28} />
             </div>
             <p className="text-sm text-neutral-500">
-              &copy; {new Date().getFullYear()} Shopora. All rights reserved.
+              &copy; {new Date().getFullYear()} ZAYLO. All rights reserved.
             </p>
           </div>
         </div>

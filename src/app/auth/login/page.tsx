@@ -3,6 +3,7 @@
 import { useState, Suspense } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Image from 'next/image'
 import Link from 'next/link'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -105,7 +106,7 @@ function LoginForm() {
         <div className="text-center mb-10">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
             <Sparkles className="h-6 w-6 text-[#D4AF37]" />
-            <span className="text-2xl font-semibold tracking-tight">Shopora</span>
+            <Image src="/ZAYLO_LOGO_DARK.png" alt="ZAYLO" width={100} height={36} />
           </Link>
           <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>
           <p className="text-neutral-500 mt-2">Sign in to your account to continue</p>
